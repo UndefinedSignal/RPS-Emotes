@@ -1,0 +1,424 @@
+<Ui>
+  <Button name = "RPSEmoteEntryTemplate" virtual="true">
+    <Size>
+      <AbsDimension x="150" y="10" />
+    </Size>
+    <NormalFont style="GameFontHighlightLeft"/>
+    <Layers>
+      <Layer level="OVERLAY">
+        <FontString name="$parentName" inherits="SystemFont_Med1" parentKey="name" text="TEXT" justifyH="LEFT">
+          <Size x="180" y="0"/>
+          <Anchors>
+            <Anchor point="CENTER" x="0" y="0"/>
+          </Anchors>
+          <Color r="1" g="1" b="1"/>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Frames>
+        <Button name="$parentFavourites" virtual="true">
+            <Size x="16" y="16"/>
+            <Anchors>
+                <Anchor relativeTo="$parent" relativePoint="TOPRIGHT" x="-3" y="-6"/>
+            </Anchors>
+            <NormalTexture file="Interface/COMMON/ReputationStar">
+                <TexCoords left="0.53125" right="0.96875" top="0.03125" bottom="0.46875"/>
+            </NormalTexture>
+            <PushedTexture file="Interface\COMMON\FavoritesIcon">
+              <TexCoords left="0.03125" right="0.78125" top="0.03125" bottom="0.6875" />
+            </PushedTexture>
+            <HighlightTexture file="Interface\COMMON\ReputationStar-Glow" alphaMode="ADD">
+                <TexCoords left="0.234375" right="0.765625" top="0.265625" bottom="0.828125"/>
+            </HighlightTexture>
+            <Layers>
+              <Layer level="ARTWORK"> 
+                <Texture alphaMode="ADD" name="$parentIndicator" file="Interface\COMMON\FavoritesIcon">
+                  <Size x="16" y="16"/>
+                  <TexCoords left="0.03125" right="0.78125" top="0.03125" bottom="0.6875" />
+                  <Anchors>
+                    <Anchor relativeTo="$parent" relativePoint="TOPRIGHT" x="-16" y="0"/>
+                  </Anchors>
+                </Texture>
+              </Layer>
+            </Layers>
+            <Scripts>
+                <PostClick>
+                    RPSEmoteFrameworkProcessFavourites(self:GetName());
+                    RPSEmoteFramework:PreGenerateShowAuras();
+                    RPSEmoteFramework:GenerateScrollMenu();
+                </PostClick>
+                <OnEnter>
+                    GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                    GameTooltip:AddLine("|cFFFFFFFFИзбранное|r")
+                    GameTooltip:AddLine("")
+                    GameTooltip:AddLine("Добавить\\исключить эмоцию из избранного.")
+                    GameTooltip:Show()
+                </OnEnter>
+                <OnLeave>
+                  GameTooltip:Hide()
+                </OnLeave>
+            </Scripts>
+        </Button>
+    </Frames>
+
+    <Scripts>
+        <OnLoad>
+            RPSEmoteFramework.DB.Frames[self:GetName()] = self;
+        </OnLoad>
+        <OnClick>
+            RPSEmoteFramework:RPSEmoteOnClick(self:GetName());
+        </OnClick>
+        <OnEnter>
+            RPSEmoteFramework:CreateGameToolTip(self:GetName());
+            GameTooltip:Show();
+        </OnEnter>
+
+        <OnLeave>
+            GameTooltip:Hide();
+        </OnLeave>
+    </Scripts>
+
+  </Button>
+
+  <Frame name="RPSEmote" parent="UIParent" frameStrata="MEDIUM" enableMouse="true" movable="true" clampedToScreen="true">
+    <Size>
+      <AbsDimension x="270" y="356"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER"/>
+    </Anchors>
+    <Scripts>
+      <OnLoad>
+        tinsert(UISpecialFrames, self:GetName());
+      </OnLoad>
+    </Scripts>
+    <Backdrop edgeFile="Interface\AchievementFrame\UI-Achievement-WoodBorder" tile="true">
+      <EdgeSize>
+        <AbsValue val="64"/>
+      </EdgeSize>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <BackgroundInsets>
+        <AbsInset left="5" right="5" top="5" bottom="5"/>
+      </BackgroundInsets>
+    </Backdrop>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Left">
+          <Size x="16" y="0"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="14" y="0"/>
+            <Anchor point="BOTTOMLEFT" x="14" y="10"/>
+          </Anchors>
+          <TexCoords left="0" right="1" top="0" bottom=".87"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Left">
+          <Size x="16" y="0"/>
+          <Anchors>
+            <Anchor point="TOPRIGHT" x="-13" y="-10"/>
+            <Anchor point="BOTTOMRIGHT" x="-13" y="10"/>
+          </Anchors>
+          <TexCoords left="1" right="0" top=".87" bottom="0"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Top">
+          <Size x="450" y="16"/>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" x="28" y="13"/>
+            <Anchor point="BOTTOMRIGHT" x="-28" y="13"/>
+          </Anchors>
+          <TexCoords left="0" right=".87" top="1.0" bottom="0"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Top">
+          <Size x="450" y="16"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="28" y="-12"/>
+            <Anchor point="TOPRIGHT" x="-28" y="-12"/>
+          </Anchors>
+          <TexCoords left=".87" right="0" top="0" bottom="1"/>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY" textureSubLevel="1">
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Joint">
+          <Size x="32" y="32"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="9" y="-7"/>
+          </Anchors>
+          <TexCoords left="1" right="0" top="1" bottom="0"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Joint">
+          <Size x="32" y="32"/>
+          <Anchors>
+            <Anchor point="TOPRIGHT" x="-8" y="-7"/>
+          </Anchors>
+          <TexCoords left="0" right="1" top="1" bottom="0"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Joint">
+          <Size x="32" y="32"/>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" x="9" y="8"/>
+          </Anchors>
+          <TexCoords left="1" right="0" top="0" bottom="1"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-MetalBorder-Joint">
+          <Size x="32" y="32"/>
+          <Anchors>
+            <Anchor point="BOTTOMRIGHT" x="-8" y="8"/>
+          </Anchors>
+          <TexCoords left="0" right="1" top="0" bottom="1"/>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY" textureSubLevel="2">
+        <Texture file="Interface\AchievementFrame\UI-Achievement-WoodBorder-Corner">
+          <Size x="64" y="64"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="4" y="-2"/>
+          </Anchors>
+          <TexCoords left="0" right="1" top="0" bottom="1"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-WoodBorder-Corner">
+          <Size x="64" y="64"/>
+          <Anchors>
+            <Anchor point="TOPRIGHT" x="-4" y="-2"/>
+          </Anchors>
+          <TexCoords left="1" right="0" top="0" bottom="1"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-WoodBorder-Corner">
+          <Size x="64" y="64"/>
+          <Anchors>
+            <Anchor point="BOTTOMLEFT" x="4" y="3"/>
+          </Anchors>
+          <TexCoords left="0" right="1" top="1" bottom="0"/>
+        </Texture>
+        <Texture file="Interface\AchievementFrame\UI-Achievement-WoodBorder-Corner">
+          <Size x="64" y="64"/>
+          <Anchors>
+            <Anchor point="BOTTOMRIGHT" x="-4" y="3"/>
+          </Anchors>
+          <TexCoords left="1" right="0" top="1" bottom="0"/>
+        </Texture>
+      </Layer>
+      <Layer level="BACKGROUND">
+        <Texture name="$parentIcon" parentKey="Icon" file="Interface\Collections\CollectionsBackgroundTile">
+          <Color r="1" g="1" b="1" a="0.6"/>
+          <Anchors>
+            <Anchor point="TOPLEFT" x="0" y="0"/>
+            <Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Frames>
+      <EditBox parentKey="searchBox" inherits="SearchBoxTemplate" letters="40" hidden="false">
+          <Size x="180" y="30"/>
+          <Anchors>
+              <Anchor point="TOPRIGHT" relativeTo="RPSEmote" relativePoint="TOPRIGHT" x="-50" y="-20"/>
+          </Anchors>
+          <Scripts>
+              <OnShow/>
+              <OnEnterPressed>
+                  RPSEmoteFramework:EmotesSearch(RPSEmoteFramework.EmoteList, self:GetText())
+                  RPSEmoteFramework:GenerateScrollMenu()
+                  self:ClearFocus();
+              </OnEnterPressed>
+              <OnTextChanged>
+                  RPSEmoteFramework:GenerateScrollMenu()
+                  SearchBoxTemplate_OnTextChanged(self);
+              </OnTextChanged>
+              <OnEditFocusLost/>
+              <OnEditFocusGained/>
+              <OnKeyDown/>
+          </Scripts>
+      </EditBox>
+
+    <CheckButton name="$parentFavCheckBox" inherits="UICheckButtonTemplate" checked="false">
+        <Size x="31" y="31"/>
+        <Anchors>
+            <Anchor point="TOPRIGHT">
+                <Offset>
+                    <AbsDimension x="-23" y="-20"></AbsDimension>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnClick>
+                RPSEmoteFramework:PreGenerateShowAuras();
+                RPSEmoteFramework:GenerateScrollMenu();
+            </OnClick>
+            <OnEnter>
+                GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+                GameTooltip:AddLine("|cFFFFFFFFИзбранное|r")
+                GameTooltip:AddLine("")
+                GameTooltip:AddLine("Клик: Открыть\\закрыть избранный список эмоций.")
+                GameTooltip:Show()
+            </OnEnter>
+            <OnLeave>
+                GameTooltip:Hide()
+            </OnLeave>
+        </Scripts>
+        <CheckedTexture file="Interface\COMMON\FavoritesIcon">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="1" y="-3"/>
+            </Anchors>
+        </CheckedTexture>
+    </CheckButton>
+
+      <ScrollFrame name="RPSEmoteScrollBar" inherits="FauxScrollFrameTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="-5" y="-8"/>
+            </Offset>
+          </Anchor>
+          <Anchor point="BOTTOMRIGHT" relativeTo="RPSEmote">
+            <Offset>
+              <AbsDimension x="-30" y="8"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnVerticalScroll>
+            if (RPSEmoteEntry10:IsShown()) then
+              FauxScrollFrame_OnVerticalScroll(self, offset, 32, RPSEmoteFramework:GenerateScrollMenu());
+              FauxScrollFrame_OnVerticalScroll(self, offset, 32, RPSEmoteFramework:GenerateScrollMenu());
+            else
+              FauxScrollFrame_OnVerticalScroll(self, offset, 32, RPSEmoteFramework:GenerateScrollMenu());
+            end
+          </OnVerticalScroll>
+        </Scripts>
+      </ScrollFrame>
+
+    <Layers>
+      <Layer level="BACKGROUND">
+        <!--Interface\BlackMarket\BlackMarketBackground-Tile-->
+        <!--Interface\BankFrame\Bank-Background-->
+        <!--Interface\Collections\CollectionsBackgroundTile-->
+        <!--Interface\GuildBankFrame\GuildVaultBG-->
+
+        <Texture file="Interface\Collections\CollectionsBackgroundTile" horizTile="true" vertTile="true">
+          <Anchors>
+            <Anchor point="TOPLEFT" x="16" y="-16"/>
+            <Anchor point="BOTTOMRIGHT" x="-16" y="16"/>
+          </Anchors>
+        </Texture>
+      </Layer>
+
+      <Layer level="OVERLAY">
+        <FontString name="$parentNotFound" inherits="SystemFont_Med1" parentKey="notfound" text="TEXT">
+          <Size x="180" y="40"/>
+          <Anchors>
+            <Anchor point="CENTER" relativeTo="RPSEmote" x="0" y="0"/>
+          </Anchors>
+          <Color r="1" g="1" b="1"/>
+        </FontString>
+      </Layer>
+
+    </Layers>
+
+      <Button parentKey="Close" name="RPSDarkmoonEye">
+        <Size x="32" y="32"/>
+        <Anchors>
+          <Anchor relativeTo="RPSEmote" relativePoint="TOP" x="-16" y="5"/>
+        </Anchors>
+        <NormalTexture file="Interface\AddOns\RPSEmotes\resources\darkmoon"/>
+        <Scripts>
+          <OnEnter>
+              self:SetNormalTexture("Interface/AddOns/RPSEmotes/resources/darkmoon-closed");
+          </OnEnter>
+          <OnLeave>
+              self:SetNormalTexture("Interface/AddOns/RPSEmotes/resources/darkmoon");
+          </OnLeave>
+          <OnClick>
+            RPSEmote:Hide();
+          </OnClick>
+        </Scripts>
+      </Button>
+
+      <Button name="RPSEmoteEntry1" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteScrollBar" relativePoint="TOPLEFT">
+            <Offset>
+              <AbsDimension x="32" y="-42"/>
+            </Offset>
+           </Anchor>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry2" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry1" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry3" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry2" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry4" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry3" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry5" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry4" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry6" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry5" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry7" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry6" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry8" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry7" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry9" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry8" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+      <Button name="RPSEmoteEntry10" inherits="RPSEmoteEntryTemplate">
+        <Size x="200" y="28"/>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="RPSEmoteEntry9" relativePoint="BOTTOMLEFT"/>
+        </Anchors>
+      </Button>
+
+      <Button name="RPS_AUTHORSHIP">
+        <Size x="36" y="36"/>
+        <Anchors><Anchor point="BOTTOM" x="0" y="-8"/></Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture parentKey="I" file="Interface\common\help-i">
+              <Size x="36" y="36"/><Anchors><Anchor point="CENTER"/></Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="BORDER">
+            <Texture parentKey="Ring" file="Interface\Minimap\MiniMap-TrackingBorder">
+              <Size x="44" y="44"/><Anchors><Anchor point="CENTER" x="9" y="-9"/></Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight">
+          <Size x="36" y="36"/><Anchors><Anchor point="CENTER" x="-1" y="1"/></Anchors>
+        </HighlightTexture>
+      </Button>
+
+    </Frames>
+  </Frame>
+</Ui>

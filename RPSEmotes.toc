@@ -1,0 +1,9 @@
+## Interface: 80300
+## Title: RPS Emotes
+## Author: TestUnit
+## Version: 2.0
+## URL: https://rp-wow.ru/
+## DefaultState: Enabled
+## SavedVariables: RPSEmotesFrameworkIconData, RPSEmoteFrameworkFavourites
+
+RPSEmotes.xml
