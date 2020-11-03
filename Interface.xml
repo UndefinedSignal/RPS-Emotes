@@ -43,7 +43,7 @@
             </Layers>
             <Scripts>
                 <PostClick>
-                    RPSEmoteFrameworkProcessFavourites(self:GetName());
+                    RPSEmoteFramework:ProcessFavourites(self:GetName());
                     RPSEmoteFramework:PreGenerateShowAuras();
                     RPSEmoteFramework:GenerateScrollMenu();
                 </PostClick>

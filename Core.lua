@@ -384,8 +384,8 @@ function RPSEmoteFramework:RPSEmoteScrollBar_Update()
 end
 
 function RPSEmoteFramework:RPSEmoteOnClick(arg1)
-    local message = ".mod standstate " .. RPSEmoteFramework.EmoteList[RPSEmoteFramework.DB[arg1][1]][2];
-    SendChatMessage(message, "GUILD")
+    local message = "mod standstate " .. RPSEmoteFramework.EmoteList[RPSEmoteFramework.DB[arg1][1]][2];
+    RPSCoreFramework:SendCoreMessage(message);
 end
 
 function RPSEmoteFramework:CreateGameToolTip(arg1)
@@ -394,11 +394,16 @@ function RPSEmoteFramework:CreateGameToolTip(arg1)
     GameTooltip:AddDoubleLine("Номер эмоции:", RPSEmoteFramework.EmoteList[RPSEmoteFramework.DB[arg1][1]][2], 1, 1, 1, 0.71, 1, 1)
 end
 
-function RPSEmoteFrameworkProcessFavourites(arg1)
+function RPSEmoteFramework:ProcessFavourites(arg1)
     if not RPSEmoteFramework:FavouritesSearch(RPSEmoteFramework.DB[arg1]) then
         table.insert(RPSEmoteFrameworkFavourites, RPSEmoteFramework.DB[arg1]);
         return
     end
     table.remove(RPSEmoteFrameworkFavourites, RPSEmoteFramework:FavouritesSearch(tonumber(RPSEmoteFramework.DB[arg1])))
     RPSEmoteFramework:GenerateScrollMenu()
+end
+
+local function RPSEmoteFramework:SendCoreMessage(msg)
+  msg = "."..msg;
+  C_ChatInfo.SendAddonMessage(RPSCoreFramework.Prefix, msg, "WHISPER", UnitName("player"));
 end
