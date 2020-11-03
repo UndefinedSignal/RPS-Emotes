@@ -1,4 +1,6 @@
 RPSEmoteFramework = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "RPSEmoteFramework", "AceHook-3.0")
+RPSEmoteFramework.Prefix = "DRPS";
+C_ChatInfo.RegisterAddonMessagePrefix(RPSEmoteFramework.Prefix)
 
 RPSEmoteFramework.EmoteList = {
   {1, 0, "STATE_NONE", "Отмена"},
@@ -385,7 +387,7 @@ end
 
 function RPSEmoteFramework:RPSEmoteOnClick(arg1)
     local message = "mod standstate " .. RPSEmoteFramework.EmoteList[RPSEmoteFramework.DB[arg1][1]][2];
-    RPSCoreFramework:SendCoreMessage(message);
+    RPSEmoteFramework:SendCoreMessage(message);
 end
 
 function RPSEmoteFramework:CreateGameToolTip(arg1)
@@ -405,5 +407,5 @@ end
 
 local function RPSEmoteFramework:SendCoreMessage(msg)
   msg = "."..msg;
-  C_ChatInfo.SendAddonMessage(RPSCoreFramework.Prefix, msg, "WHISPER", UnitName("player"));
+  C_ChatInfo.SendAddonMessage(RPSEmoteFramework.Prefix, msg, "WHISPER", UnitName("player"));
 end
