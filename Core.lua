@@ -1,6 +1,4 @@
 RPSEmoteFramework = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "RPSEmoteFramework", "AceHook-3.0")
-RPSEmoteFramework.Prefix = "DRPS";
-C_ChatInfo.RegisterAddonMessagePrefix(RPSEmoteFramework.Prefix)
 
 RPSEmoteFramework.EmoteList = {
   {1, 0, "STATE_NONE", "Отмена"},
@@ -239,7 +237,11 @@ RPSEmoteFramework.DB.Frames = {
     ["RPSEmoteEntry10"] = nil
 }
 
-
+function RPSEmoteFramework:ValidateFavourites()
+  if RPSEmoteFramework.EmoteList[RPSEmoteFrameworkFavourites[#RPSEmoteFrameworkFavourites]] == nil then
+    RPSEmoteFrameworkFavourites = {};
+  end
+end
 
 function RPSEmoteFramework:PreGenerateShowAuras()
     RPSEmoteFramework.EmoteList.ToShow = {}
@@ -291,7 +293,8 @@ function RPSEmoteFramework:cutter(msg)
 end
 
 function RPSEmoteFramework:OnEnable()
-  RPSEmoteFramework:PreGenerateShowAuras()
+  RPSEmoteFramework:ValidateFavourites();
+  RPSEmoteFramework:PreGenerateShowAuras();
   RPSEmoteFramework.EmoteList.Initialized = true;
   RPSEmoteFramework:GenerateScrollMenu();
 
@@ -386,8 +389,8 @@ function RPSEmoteFramework:RPSEmoteScrollBar_Update()
 end
 
 function RPSEmoteFramework:RPSEmoteOnClick(arg1)
-    local message = "mod standstate " .. RPSEmoteFramework.EmoteList[RPSEmoteFramework.DB[arg1][1]][2];
-    RPSEmoteFramework:SendCoreMessage(message);
+    local message = ".mod standstate " .. RPSEmoteFramework.EmoteList[RPSEmoteFramework.DB[arg1][1]][2];
+    SendChatMessage(message, "GUILD")
 end
 
 function RPSEmoteFramework:CreateGameToolTip(arg1)
@@ -401,11 +404,6 @@ function RPSEmoteFramework:ProcessFavourites(arg1)
         table.insert(RPSEmoteFrameworkFavourites, RPSEmoteFramework.DB[arg1]);
         return
     end
-    table.remove(RPSEmoteFrameworkFavourites, RPSEmoteFramework:FavouritesSearch(tonumber(RPSEmoteFramework.DB[arg1])))
-    RPSEmoteFramework:GenerateScrollMenu()
-end
-
-local function RPSEmoteFramework:SendCoreMessage(msg)
-  msg = "."..msg;
-  C_ChatInfo.SendAddonMessage(RPSEmoteFramework.Prefix, msg, "WHISPER", UnitName("player"));
+    table.remove(RPSEmoteFrameworkFavourites, RPSEmoteFramework:FavouritesSearch(tonumber(RPSEmoteFramework.DB[arg1])));
+    RPSEmoteFramework:GenerateScrollMenu();
 end
