@@ -258,15 +258,23 @@ end
 
 function RPSEmoteFramework:EmotesSearch(input, key)
   RPSEmoteFramework.EmoteList.ToShow = {}
+  
+  if (_G["RPSEmoteFavCheckBox"]:GetChecked()) then
+    input = {};
+    for i = 1, #RPSEmoteFrameworkFavourites do
+      table.insert(input, RPSEmoteFramework.EmoteList[RPSEmoteFrameworkFavourites[i]]);
+    end
+  end
+
   for i=1, #input do
     if string.find(strlower(input[i][3]),strlower(key)) ~= nil then
-      table.insert(RPSEmoteFramework.EmoteList.ToShow, i);
+      table.insert(RPSEmoteFramework.EmoteList.ToShow, input[i][1]);
     elseif string.find(strlower(input[i][4]),strlower(key)) ~= nil then
-      table.insert(RPSEmoteFramework.EmoteList.ToShow, i);
+      table.insert(RPSEmoteFramework.EmoteList.ToShow, input[i][1]);
     elseif string.find(tostring(strlower(input[i][1])),strlower(key)) ~= nil then
-      table.insert(RPSEmoteFramework.EmoteList.ToShow, i);
+      table.insert(RPSEmoteFramework.EmoteList.ToShow, input[i][1]);
     elseif string.find(tostring(strlower(input[i][2])),strlower(key)) ~= nil then
-      table.insert(RPSEmoteFramework.EmoteList.ToShow, i);
+      table.insert(RPSEmoteFramework.EmoteList.ToShow, input[i][1]);
     end
   end
 end
