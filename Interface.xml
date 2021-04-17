@@ -44,8 +44,7 @@
             <Scripts>
                 <PostClick>
                     RPSEmoteFramework:ProcessFavourites(self:GetName());
-                    RPSEmoteFramework:PreGenerateShowAuras();
-                    RPSEmoteFramework:GenerateScrollMenu();
+                    RPSCoreFramework:EmotesCheckBoxProcess();
                 </PostClick>
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
@@ -242,8 +241,7 @@
         </Anchors>
         <Scripts>
             <OnClick>
-                RPSEmoteFramework:PreGenerateShowAuras();
-                RPSEmoteFramework:GenerateScrollMenu();
+                RPSCoreFramework:EmotesCheckBoxProcess();
             </OnClick>
             <OnEnter>
                 GameTooltip:SetOwner(self, "ANCHOR_CURSOR")

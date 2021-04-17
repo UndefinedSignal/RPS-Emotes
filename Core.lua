@@ -412,6 +412,20 @@ function RPSEmoteFramework:ProcessFavourites(arg1)
         table.insert(RPSEmoteFrameworkFavourites, RPSEmoteFramework.DB[arg1]);
         return
     end
-    table.remove(RPSEmoteFrameworkFavourites, RPSEmoteFramework:FavouritesSearch(tonumber(RPSEmoteFramework.DB[arg1])));
-    RPSEmoteFramework:GenerateScrollMenu();
+    table.remove(RPSEmoteFrameworkFavourites, RPSEmoteFramework:FavouritesSearch(tonumber(RPSEmoteFramework.DB[arg1]))); -- Removes EmoteNumber from Favourites
+    if (_G["RPSEmoteFavCheckBox"]:GetChecked()) then
+      RPSEmoteFramework:PreGenerateShowAuras();
+      RPSEmoteFramework:GenerateScrollMenu();
+    end
+end
+
+function RPSCoreFramework:EmotesCheckBoxProcess()
+  RPSEmoteFramework:PreGenerateShowAuras();
+  if (_G["RPSEmoteFavCheckBox"]:GetChecked()) then
+    RPSEmoteFramework:EmotesSearch(RPSEmoteFramework.EmoteList, RPSEmote.searchBox:GetText());
+  else
+    RPSEmoteFramework:EmotesSearch(RPSEmoteFramework.EmoteList, RPSEmote.searchBox:GetText());
+  end
+  
+  RPSEmoteFramework:GenerateScrollMenu();
 end
