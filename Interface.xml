@@ -44,7 +44,7 @@
             <Scripts>
                 <PostClick>
                     RPSEmoteFramework:ProcessFavourites(self:GetName());
-                    RPSCoreFramework:EmotesCheckBoxProcess();
+                    RPSEmoteFramework:EmotesCheckBoxProcess();
                 </PostClick>
                 <OnEnter>
                     GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
@@ -241,7 +241,7 @@
         </Anchors>
         <Scripts>
             <OnClick>
-                RPSCoreFramework:EmotesCheckBoxProcess();
+                RPSEmoteFramework:EmotesCheckBoxProcess();
             </OnClick>
             <OnEnter>
                 GameTooltip:SetOwner(self, "ANCHOR_CURSOR")

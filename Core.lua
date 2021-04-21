@@ -419,7 +419,7 @@ function RPSEmoteFramework:ProcessFavourites(arg1)
     end
 end
 
-function RPSCoreFramework:EmotesCheckBoxProcess()
+function RPSEmoteFramework:EmotesCheckBoxProcess()
   RPSEmoteFramework:PreGenerateShowAuras();
   if (_G["RPSEmoteFavCheckBox"]:GetChecked()) then
     RPSEmoteFramework:EmotesSearch(RPSEmoteFramework.EmoteList, RPSEmote.searchBox:GetText());
